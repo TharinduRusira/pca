@@ -14,10 +14,10 @@ public class PCADriver {
       prepro = new PCAPreProcessor();
     }
     if (doMeanNormalize) {
-      input = prepro.meanNormalize(input);
+      input = prepro.zeroMeanNormalize(input);
     }
     if (doFeatureScale) {
-      input = prepro.featureScale(input);
+      input = prepro.unitVarianceFeatureScale(input);
     }
     
   }

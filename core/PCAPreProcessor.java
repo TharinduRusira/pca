@@ -17,7 +17,7 @@ public class PCAPreProcessor {
    * 
    * @return normalized DenseVector
    */
-  public DenseMatrix meanNormalize(DenseMatrix mat) {
+  public DenseMatrix zeroMeanNormalize(DenseMatrix mat) {
     Preconditions.checkArgument(mat != null, "Argument cannot be null");
     int inputSize = mat.rowSize();
     DenseVector mu = new DenseVector(mat.columnSize());
@@ -42,7 +42,7 @@ public class PCAPreProcessor {
    *          DenseVector with input data
    * @return scaled DensVector with scaled values
    */
-  public DenseMatrix featureScale(DenseMatrix mat) {
+  public DenseMatrix unitVarianceFeatureScale(DenseMatrix mat) {
     Preconditions.checkArgument(mat != null, "Argument cannot be null");
     int inputSize = mat.rowSize();
     int features = mat.columnSize();
