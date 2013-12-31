@@ -14,10 +14,8 @@ public class PCAPreProcessorTest extends PCADriver {
   @Test
   public void zeroMeanNormalizeTest() {
     DenseMatrix input = new DenseMatrix(new double[][] { {1, 2, 3}, {100, 500, 2}, {300, 6, 40}});
-    DenseMatrix expected = new DenseMatrix(new double[][] {
-        {-132.66666666666666, -167.33333333333334, -12.0},
-        {-33.66666666666666, 330.66666666666663, -13.0},
-        {166.33333333333334, -163.33333333333334, 25.0}});
+    DenseMatrix expected = new DenseMatrix(new double[][] { {-132.66666666666666, -167.33333333333334, -12.0},
+        {-33.66666666666666, 330.66666666666663, -13.0}, {166.33333333333334, -163.33333333333334, 25.0}});
     PCAPreProcessor prepro = new PCAPreProcessor();
     DenseMatrix result = prepro.zeroMeanNormalize(input);
     assertEquals("meanNormalizeTest failed", expected.asFormatString(), result.asFormatString());
