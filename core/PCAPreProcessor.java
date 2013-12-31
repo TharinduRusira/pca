@@ -6,7 +6,9 @@ import com.google.common.base.Preconditions;
 
 /**
  * Data preprocessor class for Principal Component Analysis This class has methods for mean normalization and feature
- * scaling Reference: PCA class notes, Andrew Ng, http://cs229.stanford.edu/notes/cs229-notes10.pdf
+ * scaling References: PCA class notes, Andrew Ng, http://cs229.stanford.edu/notes/cs229-notes10.pdf A TUTORIAL ON
+ * PRINCIPAL COMPONENT ANALYSIS Derivation, Discussion and Singular Value Decomposition
+ * http://www.cs.princeton.edu/picasso/mats/PCA-Tutorial-Intuition_jp.pdf
  */
 public class PCAPreProcessor {
   /**
