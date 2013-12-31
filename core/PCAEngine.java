@@ -3,6 +3,8 @@ package core;
 import org.apache.mahout.math.DenseMatrix;
 import org.apache.mahout.math.Matrix;
 
+import com.google.common.base.Preconditions;
+
 public class PCAEngine implements AbstractPCAEngine {
   DenseMatrix input, reducedMatrix;
   int inputSize;
@@ -21,6 +23,7 @@ public class PCAEngine implements AbstractPCAEngine {
     this.input = in;
     this.inputSize = in.rowSize();
     this.features = in.columnSize();
+    Preconditions.checkArgument(k<= features, "reduced dimension should be less than or equal to the number of original features");
     this.reducedSize = k;
   }
   
@@ -40,6 +43,7 @@ public class PCAEngine implements AbstractPCAEngine {
    * @return
    */
   @Override
+  //TO-DO: 
   public DenseMatrix getCovarianceMatrix() {
     DenseMatrix covar = new DenseMatrix(features, features);
     // calculate Covariance matrix
