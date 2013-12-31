@@ -1,7 +1,9 @@
 package tests;
 
 import static org.junit.Assert.*;
+
 import org.apache.mahout.math.DenseMatrix;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,6 +11,19 @@ import core.PCAEngine;
 
 public class PCAEngineTest {
   
+  @Test
+  public void checkPCAEngineConstructor2(){
+    DenseMatrix input = new DenseMatrix(new double[][] { {1, 2, 3}, {4, 5, 6}});
+    try{
+      // this call should generate an IllegalArgumentException
+      new PCAEngine(input, 5);
+      assertTrue("checkPCAEngineConstructor2 failed", false);
+    }catch(IllegalArgumentException e){
+      assertTrue(true);
+    }catch(Exception other){
+      assertTrue("checkPCAEngineConstructor2 failed",false);
+    }
+  }
   
   @Test
   public void covarianceMatrixTest() {
@@ -17,6 +32,7 @@ public class PCAEngineTest {
     DenseMatrix result = new PCAEngine(input).getCovarianceMatrix();
     assertEquals("Covariance Matrix Test failed", expected.asFormatString(), result.asFormatString());
   }
+
   @Test
   public void getEigenVectorsTest(){
     
