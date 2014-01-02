@@ -55,6 +55,16 @@ public class PCAEngine implements AbstractPCAEngine {
     covar.assign(covar.divide(inputSize));
     return covar;
   }
+  /** 
+   * A vectorized implementation of covariance matrix
+   * 
+   */
+  public DenseMatrix getCovarianceMatrixVectorized(){
+    DenseMatrix covar = new DenseMatrix(features, features);
+    covar = (DenseMatrix)input.transpose().times(input);
+    covar = (DenseMatrix) covar.divide(inputSize);
+    return covar;
+  } 
   
   /**
    * Calculates Eigen Vectors of a given Co-variance matrix using Single Value Decomposition(SVD) method
