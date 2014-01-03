@@ -1,6 +1,7 @@
 package core;
 
 import org.apache.mahout.math.DenseMatrix;
+import org.apache.mahout.math.DenseVector;
 
 /**
  * 
@@ -13,6 +14,6 @@ public interface AbstractPCAEngine {
   
   public DenseMatrix getCovarianceMatrix();
   
-  public DenseMatrix getEigenVectors();
+  public DenseVector getEigenValues();
   
 }
