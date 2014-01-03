@@ -2,7 +2,6 @@ package core;
 
 import org.apache.mahout.math.DenseMatrix;
 import org.apache.mahout.math.Matrix;
-
 import com.google.common.base.Preconditions;
 
 public class PCAEngine implements AbstractPCAEngine {
@@ -23,7 +22,8 @@ public class PCAEngine implements AbstractPCAEngine {
     this.input = in;
     this.inputSize = in.rowSize();
     this.features = in.columnSize();
-    Preconditions.checkArgument(k<= features, "reduced dimension should be less than or equal to the number of original features");
+    Preconditions.checkArgument(k <= features,
+        "reduced dimension should be less than or equal to the number of original features");
     this.reducedSize = k;
   }
   
@@ -43,7 +43,6 @@ public class PCAEngine implements AbstractPCAEngine {
    * @return
    */
   @Override
-  //TO-DO: 
   public DenseMatrix getCovarianceMatrix() {
     DenseMatrix covar = new DenseMatrix(features, features);
     // calculate Covariance matrix
@@ -55,16 +54,17 @@ public class PCAEngine implements AbstractPCAEngine {
     covar.assign(covar.divide(inputSize));
     return covar;
   }
-  /** 
+  
+  /**
    * A vectorized implementation of covariance matrix
    * 
    */
-  public DenseMatrix getCovarianceMatrixVectorized(){
+  public DenseMatrix getCovarianceMatrixVectorized() {
     DenseMatrix covar = new DenseMatrix(features, features);
-    covar = (DenseMatrix)input.transpose().times(input);
+    covar = (DenseMatrix) input.transpose().times(input);
     covar = (DenseMatrix) covar.divide(inputSize);
     return covar;
-  } 
+  }
   
   /**
    * Calculates Eigen Vectors of a given Co-variance matrix using Single Value Decomposition(SVD) method
