@@ -33,7 +33,7 @@ public class PCAPreProcessorTest extends PCADriver {
     
   }
   
-  @Test
+  /*@Test
   public void vectorSquareTest() {
     DenseVector input = new DenseVector(new double[] {1, 2, 3});
     PCAPreProcessor prepro = new PCAPreProcessor();
@@ -41,6 +41,6 @@ public class PCAPreProcessorTest extends PCADriver {
     DenseVector expected = new DenseVector(new double[] {1, 4, 9});
     assertEquals("vectorSquareTest failed", expected, result);
     
-  }
+  }*/
   
 }
