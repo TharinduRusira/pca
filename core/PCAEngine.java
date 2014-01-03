@@ -1,8 +1,11 @@
 package core;
 
 import org.apache.mahout.math.DenseMatrix;
+import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Matrix;
+import org.apache.mahout.math.SingularValueDecomposition;
 import com.google.common.base.Preconditions;
+import misc.PCAHelperFunctions;
 
 public class PCAEngine implements AbstractPCAEngine {
   DenseMatrix input, reducedMatrix;
@@ -29,7 +32,7 @@ public class PCAEngine implements AbstractPCAEngine {
   
   /**
    * 
-   * @return
+   * @return {@link DenseMatrix} matrix of k-principal components
    */
   @Override
   public DenseMatrix runPCA() {
@@ -40,7 +43,7 @@ public class PCAEngine implements AbstractPCAEngine {
   
   /**
    * 
-   * @return
+   * @return {@link DenseMatrix} co-variance matrix of the input matrix
    */
   @Override
   public DenseMatrix getCovarianceMatrix() {
@@ -56,7 +59,8 @@ public class PCAEngine implements AbstractPCAEngine {
   }
   
   /**
-   * A vectorized implementation of covariance matrix
+   * A vectorized(matrix multiplication) implementation of covariance matrix
+   * @return {@link DenseMatrix} covariance matrix of the input matrix
    * 
    */
   public DenseMatrix getCovarianceMatrixVectorized() {
@@ -68,12 +72,21 @@ public class PCAEngine implements AbstractPCAEngine {
   
   /**
    * Calculates Eigen Vectors of a given Co-variance matrix using Single Value Decomposition(SVD) method
+   * Mahout math library does not provide a way to calculate Eigenvalues directly.
+    Hence, principal component analysis is done with SVD.
+    For a matrix with real elements, 
+       Eigenvalues = squares of singular values
    * 
-   * @return u
+   * @return {@link DenseVector} eigenvalues
    */
   @Override
-  public DenseMatrix getEigenVectors() {
-    
-    return null;
+  public DenseVector getEigenValues() {
+    SingularValueDecomposition svd = new SingularValueDecomposition(input);
+    double[] singularValues = svd.getSingularValues();
+    Preconditions.checkNotNull(singularValues, "Singular Values returned null");
+    Preconditions.checkArgument(singularValues.length !=0, "No singular values found for the input matrix");
+    DenseVector eigenV=  PCAHelperFunctions.square(new DenseVector(singularValues));
+    return eigenV;
   }
+  
 }
