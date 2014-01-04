@@ -17,8 +17,8 @@ public class PCAEngine implements AbstractPCAEngine {
     this.input = in;
     this.inputSize = in.rowSize();
     this.features = in.columnSize();
-    // default value is set as the same numbers as the number of original features
-    this.reducedSize = features;
+    // default value is set to 1
+    this.reducedSize = 1;
   }
   
   public PCAEngine(DenseMatrix in, int k) {
