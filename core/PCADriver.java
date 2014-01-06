@@ -1,7 +1,6 @@
 package core;
 
 import org.apache.mahout.math.DenseMatrix;
-import org.apache.mahout.math.DenseVector;
 
 public class PCADriver {
   
@@ -19,6 +18,8 @@ public class PCADriver {
     if (doFeatureScale) {
       input = prepro.unitVarianceFeatureScale(input);
     }
+    
+    
     
   }
   

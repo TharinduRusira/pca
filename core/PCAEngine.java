@@ -4,8 +4,6 @@ import org.apache.mahout.math.DenseMatrix;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Matrix;
 import org.apache.mahout.math.SingularValueDecomposition;
-import org.apache.mahout.math.Vector;
-
 import com.google.common.base.Preconditions;
 
 import misc.PCAHelperFunctions;
@@ -20,7 +18,7 @@ public class PCAEngine implements AbstractPCAEngine {
     this.input = in;
     this.inputSize = in.rowSize();
     this.features = in.columnSize();
-    // default value is set to 1
+    // default value is set to 1 which gives the principal component
     this.reducedSize = 1;
   }
   
@@ -93,7 +91,8 @@ public class PCAEngine implements AbstractPCAEngine {
   }
   
   /**
-   * right singular vectors are equivalent to eigenvectors
+   * Right singular vectors are equivalent to eigenvectors. SingleValueDecomposition class
+   * will be used to obtain right singular values of the input matrix directly
    * 
    * @param in {@link DenseMatrix}
    * @return sorted eigenvectors as columns of a {@link DenseMatrix}
@@ -102,6 +101,16 @@ public class PCAEngine implements AbstractPCAEngine {
 	  SingularValueDecomposition svd = new SingularValueDecomposition(in);
 	  DenseMatrix eigenVec = (DenseMatrix) svd.getV();
 	  return eigenVec;
+  }
+  
+  /**
+   * Return k eigenvectors corresponding to top k eigenvalues
+   * @param v {@link DenseMatrix} 
+   * @return topk {@link DenseMatrix}
+   */
+  public DenseMatrix getKPrincipalComponents(DenseMatrix v){
+   // write code
+    return null;
   }
   
 }
