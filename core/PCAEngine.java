@@ -4,7 +4,10 @@ import org.apache.mahout.math.DenseMatrix;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Matrix;
 import org.apache.mahout.math.SingularValueDecomposition;
+import org.apache.mahout.math.Vector;
+
 import com.google.common.base.Preconditions;
+
 import misc.PCAHelperFunctions;
 
 public class PCAEngine implements AbstractPCAEngine {
@@ -87,6 +90,18 @@ public class PCAEngine implements AbstractPCAEngine {
     Preconditions.checkArgument(singularValues.length !=0, "No singular values found for the input matrix");
     DenseVector eigenV=  PCAHelperFunctions.square(new DenseVector(singularValues));
     return eigenV;
+  }
+  
+  /**
+   * right singular vectors are equivalent to eigenvectors
+   * 
+   * @param in {@link DenseMatrix}
+   * @return sorted eigenvectors as columns of a {@link DenseMatrix}
+   */
+  public DenseMatrix getEigenVectors(DenseMatrix in){
+	  SingularValueDecomposition svd = new SingularValueDecomposition(in);
+	  DenseMatrix eigenVec = (DenseMatrix) svd.getV();
+	  return eigenVec;
   }
   
 }
