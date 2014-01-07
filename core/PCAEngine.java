@@ -1,9 +1,12 @@
 package core;
 
+import java.util.HashMap;
+
 import org.apache.mahout.math.DenseMatrix;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Matrix;
 import org.apache.mahout.math.SingularValueDecomposition;
+
 import com.google.common.base.Preconditions;
 
 import misc.PCAHelperFunctions;
@@ -61,6 +64,7 @@ public class PCAEngine implements AbstractPCAEngine {
   
   /**
    * A vectorized(matrix multiplication) implementation of covariance matrix
+   * 
    * @return {@link DenseMatrix} covariance matrix of the input matrix
    * 
    */
@@ -72,11 +76,9 @@ public class PCAEngine implements AbstractPCAEngine {
   }
   
   /**
-   * Calculates Eigen Vectors of a given Co-variance matrix using Single Value Decomposition(SVD) method
-   * Mahout math library does not provide a way to calculate Eigenvalues directly.
-    Hence, principal component analysis is done with SVD.
-    For a matrix with real elements, 
-       Eigenvalues = squares of singular values
+   * Calculates Eigen Vectors of a given Co-variance matrix using Single Value Decomposition(SVD) method Mahout math
+   * library does not provide a way to calculate Eigenvalues directly. Hence, principal component analysis is done with
+   * SVD. For a matrix with real elements, Eigenvalues = squares of singular values
    * 
    * @return {@link DenseVector} eigenvalues
    */
@@ -85,31 +87,48 @@ public class PCAEngine implements AbstractPCAEngine {
     SingularValueDecomposition svd = new SingularValueDecomposition(input);
     double[] singularValues = svd.getSingularValues();
     Preconditions.checkNotNull(singularValues, "Singular Values returned null");
-    Preconditions.checkArgument(singularValues.length !=0, "No singular values found for the input matrix");
-    DenseVector eigenV=  PCAHelperFunctions.square(new DenseVector(singularValues));
+    Preconditions.checkArgument(singularValues.length != 0, "No singular values found for the input matrix");
+    DenseVector eigenV = PCAHelperFunctions.square(new DenseVector(singularValues));
     return eigenV;
   }
   
   /**
-   * Right singular vectors are equivalent to eigenvectors. SingleValueDecomposition class
-   * will be used to obtain right singular values of the input matrix directly
+   * Right singular vectors are equivalent to eigenvectors. SingleValueDecomposition class will be used to obtain right
+   * singular values of the input matrix directly
    * 
-   * @param in {@link DenseMatrix}
+   * @param in
+   *          {@link DenseMatrix}
    * @return sorted eigenvectors as columns of a {@link DenseMatrix}
    */
-  public DenseMatrix getEigenVectors(DenseMatrix in){
-	  SingularValueDecomposition svd = new SingularValueDecomposition(in);
-	  DenseMatrix eigenVec = (DenseMatrix) svd.getV();
-	  return eigenVec;
+  public DenseMatrix getEigenVectors(DenseMatrix in) {
+    SingularValueDecomposition svd = new SingularValueDecomposition(in);
+    DenseMatrix eigenVec = (DenseMatrix) svd.getV();
+    return eigenVec;
+  }
+  
+  /**
+   * 
+   * @return a Hashmap containing eigenvalues and corresponding eigenvectors
+   */
+  public HashMap<Double,DenseVector> mapEigenvaluesToEigenVectors(double[] singularValues, Matrix eigenVectors) {
+    HashMap<Double,DenseVector> eigenMap = new HashMap<>(singularValues.length);
+    for (int i = 0; i < singularValues.length; i++) {
+      // eigenvalue = singular value ^2
+      // eigenvector = right singular vector
+      eigenMap.put(singularValues[i] * singularValues[i], (DenseVector) eigenVectors.viewRow(i));
+    }
+    return eigenMap;
   }
   
   /**
    * Return k eigenvectors corresponding to top k eigenvalues
-   * @param v {@link DenseMatrix} 
+   * 
+   * @param v
+   *          {@link DenseMatrix}
    * @return topk {@link DenseMatrix}
    */
-  public DenseMatrix getKPrincipalComponents(DenseMatrix v){
-   // write code
+  public DenseMatrix getKPrincipalComponents(DenseMatrix v) {
+    // write code
     return null;
   }
   
