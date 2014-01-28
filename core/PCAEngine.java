@@ -1,6 +1,8 @@
 package core;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import org.apache.mahout.math.DenseMatrix;
 import org.apache.mahout.math.DenseVector;
@@ -108,28 +110,36 @@ public class PCAEngine implements AbstractPCAEngine {
   
   /**
    * 
-   * @return a Hashmap containing eigenvalues and corresponding eigenvectors
+   * @return a TreeMap containing eigenvalues and corresponding eigenvectors
    */
   public HashMap<Double,DenseVector> mapEigenvaluesToEigenVectors(double[] singularValues, Matrix eigenVectors) {
-    HashMap<Double,DenseVector> eigenMap = new HashMap<>(singularValues.length);
+    Map<Double,DenseVector> eigenMap = new HashMap<>(singularValues.length);
     for (int i = 0; i < singularValues.length; i++) {
       // eigenvalue = singular value ^2
       // eigenvector = right singular vector
       eigenMap.put(singularValues[i] * singularValues[i], (DenseVector) eigenVectors.viewRow(i));
     }
-    return eigenMap;
+    // key is Double, we use natural ordering of keys 
+    TreeMap<Double, DenseVector> sortedEigenMap = new TreeMap<Double, DenseVector>(eigenMap);
+    return sortedEigenMap;
   }
   
   /**
    * Return k eigenvectors corresponding to top k eigenvalues
    * 
    * @param v
-   *          {@link DenseMatrix}
+   *          {@link TreeMap}
    * @return topk {@link DenseMatrix}
    */
-  public DenseMatrix getKPrincipalComponents(DenseMatrix v) {
-    // write code
-    return null;
+  public DenseMatrix getKPrincipalComponents(TreeMap<Double, DenseVector> v) {
+    int last_index = v.size() -1 ;
+    DenseMatrix principalVectors = new DenseMatrix(inputSize, reducedSize);
+    int i = last_index;
+    Iterator<E> it = v.descendingKeySet().descendingIterator();
+    for(int i=0;i<reducedSize;i++){
+    	principalVectors.assignRow(i,v.get(it.next()));
+    }
+    return principalVectors;
   }
   
 }
