@@ -2,6 +2,7 @@ package core;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.mahout.math.DenseMatrix;
@@ -112,7 +113,7 @@ public class PCAEngine implements AbstractPCAEngine {
    * 
    * @return a TreeMap containing eigenvalues and corresponding eigenvectors
    */
-  public HashMap<Double,DenseVector> mapEigenvaluesToEigenVectors(double[] singularValues, Matrix eigenVectors) {
+  public TreeMap<Double, DenseVector> mapEigenvaluesToEigenVectors(double[] singularValues, Matrix eigenVectors) {
     Map<Double,DenseVector> eigenMap = new HashMap<>(singularValues.length);
     for (int i = 0; i < singularValues.length; i++) {
       // eigenvalue = singular value ^2
@@ -135,9 +136,9 @@ public class PCAEngine implements AbstractPCAEngine {
     int last_index = v.size() -1 ;
     DenseMatrix principalVectors = new DenseMatrix(inputSize, reducedSize);
     int i = last_index;
-    Iterator<E> it = v.descendingKeySet().descendingIterator();
-    for(int i=0;i<reducedSize;i++){
-    	principalVectors.assignRow(i,v.get(it.next()));
+    Iterator<Double> it = v.descendingKeySet().descendingIterator();
+    for(int j=0;j<reducedSize;j++){
+    	principalVectors.assignRow(j,v.get(it.next()));
     }
     return principalVectors;
   }

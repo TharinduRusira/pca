@@ -3,8 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 
 import org.apache.mahout.math.DenseMatrix;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.Before;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import core.PCAEngine;
